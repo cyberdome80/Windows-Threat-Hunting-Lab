@@ -216,6 +216,16 @@ To transition from passive alert auditing to active automated response mitigatio
 
 ### Rule Profile Identification: `Ransom_Note_Mitigation_Rule`
 
+<img width="1280" height="630" alt="WhatsApp Image 2026-06-13 at 2 17 04 AM" src="https://github.com/user-attachments/assets/9d51eff9-2f52-49b7-bf52-5cbb1cb3231d" />
+
+**Simple Explanation (Automated Mitigation Engineering):**
+Instead of just watching attacks happen, the security analyst engineers an active, automated defense rule inside the LimaCharlie EDR cloud platform. 
+
+1. **The Detection Trigger:** The rule watches the endpoint in real-time. If any program tries to drop a text file on a user's desktop with the word "RANSOM" in its file name, the platform instantly trips an alarm.
+2. **The Automated Response:** The millisecond the rule trips, the SIEM drops a high-priority critical alert block onto the analyst queue. Simultaneously, it fires an automated "kill switch" (`deny_tree`) that immediately terminates the exact background program trying to run the script. This drops the containment window to milliseconds, blocking the attack before it can spread or encrypt other data assets on the server disk.
+
+
+
 #### Detection Logic (YAML Parameters):
 ```yaml
 event: FILE_CREATE
