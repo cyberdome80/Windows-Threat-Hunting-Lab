@@ -210,39 +210,149 @@ The attacker detonates the ransomware payload to scramble the victim's data usin
 
 ---
 
-## 🛠️ 3. Proactive Detection Engineering & Automated Defense
-
-To transition from passive alert auditing to active automated response mitigations, a custom Detection and Response (D&R) rule profile was engineered and deployed into production inside the cloud control plane.
-
-### Rule Profile Identification: `Ransom_Note_Mitigation_Rule`
-
-<img width="1280" height="630" alt="WhatsApp Image 2026-06-13 at 2 17 04 AM" src="https://github.com/user-attachments/assets/9d51eff9-2f52-49b7-bf52-5cbb1cb3231d" />
-
-**Simple Explanation (Automated Mitigation Engineering):**
-Instead of just watching attacks happen, the security analyst engineers an active, automated defense rule inside the LimaCharlie EDR cloud platform. 
-
-1. **The Detection Trigger:** The rule watches the endpoint in real-time. If any program tries to drop a text file on a user's desktop with the word "RANSOM" in its file name, the platform instantly trips an alarm.
-2. **The Automated Response:** The millisecond the rule trips, the SIEM drops a high-priority critical alert block onto the analyst queue. Simultaneously, it fires an automated "kill switch" (`deny_tree`) that immediately terminates the exact background program trying to run the script. This drops the containment window to milliseconds, blocking the attack before it can spread or encrypt other data assets on the server disk.
 
 
 
-#### Detection Logic (YAML Parameters):
-```yaml
-event: FILE_CREATE
-op: matches
-path: event/FILE_PATH
-re: .*\\Desktop\\.*RANSOM.*\.txt\$
-```
+## 🔍 2. Threat Hunting & SIEM Telemetry Analysis
 
-#### Automated Containment Response Actions (YAML Parameters):
-```yaml
-- action: report
-  name: CRITICAL_RANSOMWARE_DETONATION_ATTEMPT
-- action: task
-  command: history_dump
-- action: task
-  command: deny_tree <<routing/parent>>
-```
+#### 📝 Threat Hunting Introduction
+An entry-level analyst simply looks to see if a computer screen has a virus warning on it. A professional enterprise analyst uses a centralized cloud platform like **LimaCharlie** combined with local Windows logs to hunt for hidden digital footprints. 
 
-### Engineering Remediation Summary
-The rule provides microsecond containment properties. The moment an active file generation thread attempts to append a file string containing the malicious structural regex parameters onto the desktop space, the engine catches the telemetry block. It automatically flags a critical console response notification, dumps volatile log architecture history for later forensics, and initiates an immediate **`deny_tree` process kill command** targeting the parental root pipeline thread running the script. This drops the Mean Time to Remediate (MTTR) straight down to the millisecond scale, neutralizing the attack thread completely before any further encryption loops can expand across the server disk.
+Below is the forensic investigation trail. It tells the story of how the defender connects the local system clues to the cloud alerts to unmask the attacker's entire strategy.
+
+---
+
+### 🛡️ Phase 1 Tracking: Threat Hunting the Backup Deletion
+*   **The Attacker's Action:** The hacker executed `vssadmin delete shadows /all /quiet` to destroy all automatic system backups.
+
+#### 📸 Local Footprint: Windows Sysmon Event ID 1 (Process Creation)
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_15_06_2026_23_53_33" src="https://github.com/user-attachments/assets/e34df429-5fb8-497e-9099-ec6c0a5d076f" />
+
+
+*   **What the Defender Discovers:** By finding this local log, the defender discovers the attacker's primary motive: **Inhibiting System Recovery**. The defender understands that a hacker is on the network and is intentionally destroying the system's safety nets to make sure the company cannot restore its files for free. 
+
+#### 📸 Cloud Telemetry: SIEM Live Feed Stream
+
+<img width="1280" height="638" alt="WhatsApp Image 2026-06-12 at 11 07 14 PM" src="https://github.com/user-attachments/assets/cb83dc94-60ce-4707-99fd-d492baa7ede4" />
+
+
+*   **What the Defender Discovers:** In the cloud console, the defender unmasks **where the attack came from**. By examining the process lineage, the defender sees that the command prompt (`cmd.exe`) was spawned by the OpenSSH service (`sshd.exe`). The defender now understands that this wasn't a local employee mistake; a remote attacker has successfully logged into the machine from the outside world.
+
+#### 📸 Cloud Telemetry: Historical Timeline Index
+
+<img width="1280" height="641" alt="WhatsApp Image 2026-06-12 at " src="https://github.com/user-attachments/assets/6785ddd1-48cc-440d-b1d7-7c5730c11e8b" />
+
+
+*   **What the Defender Discovers:** By looking at the historical timeline, the defender establishes the **exact timestamp of the incident** (`20:53:19`). The defender understands that even if the attacker clears their screen or disconnects, the cloud platform has locked the event permanently in history, allowing the security team to build an accurate forensic timeline of the breach.
+
+---
+
+### 🛡️ Phase 2 Tracking: Threat Hunting the Memory Dump
+*   **The Attacker's Action:** The hacker disabled the antivirus guards and ran a script tool (`rundll32.exe`) to clone the computer's password storage service (`lsass.exe`) into a file.
+
+#### 📸 Local Footprint: Windows Sysmon Event ID 1 (Process Creation)
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_11_06_2026_17_53_14" src="https://github.com/user-attachments/assets/d1e78541-688f-4cc8-a951-7d335201cc97" />
+
+
+*   **What the Defender Discovers:** The defender finds the second, successful attack execution on the hard drive. By reading the script parameters, the defender understands that the hacker used an advanced "Living off the Land" trick (using a trusted built-in Windows tool to run a malicious memory dump) to slip past basic file filters undetected.
+
+#### 📸 Local Footprint: Windows Sysmon Event ID 10 (Process Access Handle)
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_11_06_2026_18_05_39" src="https://github.com/user-attachments/assets/ba3dc295-b659-49d9-883b-d8e156efce0c" />
+
+
+*   **What the Defender Discovers:** This log acts as the **ultimate proof of credential theft**. The defender sees that an outside application requested a deep handle to look inside the password storage vault (`lsass.exe`). The defender instantly understands that the attacker has successfully copied the system's active passwords and security keys.
+
+#### 📸 Cloud Telemetry: High-Integrity Process Detection
+
+<img width="853" height="424" alt="Screenshot 2026-06-16 003519" src="https://github.com/user-attachments/assets/2ba52300-19e4-44dc-bf5b-9a964b068b8b" />
+
+
+*   **What the Defender Discovers:** Inside the cloud SIEM, the defender checks the permission levels used during the attack. By spotting **`"IntegrityLevel": "High"`**, the defender understands that the attacker has successfully gained full administrative rights on the machine, giving them the power to control the entire operating system.
+
+#### 📸 Cloud Telemetry: Evasion Technique Mapping
+
+<img width="855" height="421" alt="Screenshot 2026-06-16 003942" src="https://github.com/user-attachments/assets/cf82ab0a-4794-4c95-a99a-a44fe31c6f5a" />
+
+
+*   **What the Defender Discovers:** The defender exposes the attacker's scripting tool. By seeing that `powershell.exe` was used to launch the memory dump, the defender understands the exact scripting method the hacker used to bypass standard system boundaries.
+
+#### 📸 Cloud Telemetry: Timeline Validation
+
+<img width="854" height="422" alt="Screenshot 2026-06-16 004521" src="https://github.com/user-attachments/assets/81935708-cf55-436c-aba6-e3e03b12ad3a" />
+
+
+*   **What the Defender Discovers:** The defender traces where the stolen password file was saved. The timeline log points directly to `C:\Users\Target-PC2\Documents\lsass.dmp`. The defender now understands exactly which file on the hard drive contains the compromised company keys and must be securely deleted immediately.
+
+---
+
+### 🛡️ Phase 3 Tracking: Threat Hunting the Data Leak (Exfiltration)
+*   **The Attacker's Action:** The hacker packed up corporate text documents into a `.zip` archive and used a secure file transfer tool (`scp`) to copy the file over the network to their Kali Linux machine.
+
+#### 📸 Local Footprint: Windows Sysmon Event ID 11 (File Creation)
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_12_06_2026_01_03_20" src="https://github.com/user-attachments/assets/f794bc34-2fe6-4080-9e2c-f415c7245bc3" />
+
+
+*   **What the Defender Discovers:** The defender finds the **Data Staging** phase. By locating the creation of `sensitive_exfil.zip` inside the system's temporary directory (`C:\Windows\Temp\`), the defender understands that the attacker was actively bundling private company databases together into a single package so they could steal them easily in one download.
+
+#### 📸 Local Footprint: Windows Sysmon Event ID 3 (Network Connection)
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_11_06_2026_03_00_06" src="https://github.com/user-attachments/assets/a4687d36-4674-413e-9786-e6dc07dbe5c6" />
+
+
+*   **What the Defender Discovers:** This log captures the exact moment the corporate data transfer took place across network boundaries. The defender discovers an active **Event ID 3 (Network Connection)** coming from the OpenSSH background program (`sshd.exe`). 
+
+Even though the raw number 22 is translated by the system, the program name tells the defender that an external network address (`192.168.10.250`) is using an active Port 22 remote tunnel to pull files off the machine. The defender instantly recognizes this as a **Data Exfiltration breach** and flags the hacker's exact network identity.
+
+
+#### 📸 Cloud Telemetry: Live Feed Network Pipe Logging
+
+<img width="1280" height="644" alt="Data exfiltration (2)" src="https://github.com/user-attachments/assets/5d1a8b6b-2afe-454e-aa14-58168c9aec83" />
+
+
+*   **What the Defender Discovers:** The cloud console highlights the live outbound traffic flow. The defender sees the network pipe transferring data over Port 22, understanding that the attacker is leveraging an authorized network shell connection to hide their unauthorized data theft behavior.
+
+#### 📸 Cloud Telemetry: Consolidated Session Analysis
+
+<img width="1280" height="625" alt="Data exfiltration (1)" src="https://github.com/user-attachments/assets/5f2116db-4575-424d-b104-3a68e8558c6d" />
+
+
+*   **What the Defender Discovers:** The defender isolates the exact duration of the data leak. By tracking the network connection timestamps, the defender understands how long the hacker was connected and can estimate exactly how much corporate data was pulled off the system.
+
+---
+
+### 🛡️ Phase 4 Tracking: Threat Hunting the Ransomware Encryption
+*   **The Attacker's Action:** The hacker ran a malicious script loop that encrypted company folders with a `.locked` extension and dropped a ransom note file onto the desktop background.
+
+#### 📸 Local Footprint: Windows System Impact View (GUI)
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_12_06_2026_01_54_34" src="https://github.com/user-attachments/assets/f2f8bfa7-5b1b-4712-87a0-acd4b11bc38a" />
+
+
+*   **What the Defender Discovers:** The defender witnesses the **Action on Objectives** phase. Looking at the screen, the defender understands the final impact of the attack: all primary company documents have been destroyed and locked with a `.locked` extension, and the enterprise is now facing a live extortion demand for 1 BTC.
+
+#### 📸 Local Footprint: Windows Sysmon Event ID 11 (Ransom File Drop)
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_12_06_2026_01_59_56" src="https://github.com/user-attachments/assets/a2e472eb-03da-4326-a077-72f215615e17" />
+
+
+*   **What the Defender Discovers:** The local log tracks the drop of the extortion demand. The defender discovers that a PowerShell script explicitly wrote a file named `READ_ME_RANSOM.txt` directly onto the user's desktop profile path, confirming that a ransomware payload has been detonated.
+
+#### 📸 Cloud Telemetry: Live Feed File Creation Event
+
+<img width="1280" height="635" alt="Ransomware Encryption   Impact Telemetry (1)" src="https://github.com/user-attachments/assets/dee51469-6363-438d-8aeb-fddc70013368" />
+
+
+*   **What the Defender Discovers:** The cloud live feed logs the exact moment the ransomware message hit the desktop interface. The defender understands that an automated attack script is currently modifying files on the desktop and can trigger immediate incident response isolation protocols to stop the script from spreading to other network drives.
+
+#### 📸 Cloud Telemetry: Historical Threat Mapping
+<img width="1280" height="643" alt="Ransomware Encryption   Impact Telemetry (2)" src="https://github.com/user-attachments/assets/73049d0e-f61a-46d4-bc48-0b5341514a4d" />
+
+
+*   **What the Defender Discovers:** By searching the SIEM history for the word `ransom`, the defender isolates the exact file modification alert at `23:11:10`. The defender understands the complete execution path of the ransomware loop, preserving the raw process string as unassailable proof for the final incident response report.
+
+---
+
