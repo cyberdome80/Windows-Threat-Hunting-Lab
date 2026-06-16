@@ -353,8 +353,8 @@ The defender instantly understands that an outside attacker is actively using th
 #### 📸 Cloud Telemetry: Historical Threat Mapping
 <img width="1280" height="643" alt="Ransomware Encryption   Impact Telemetry (2)" src="https://github.com/user-attachments/assets/73049d0e-f61a-46d4-bc48-0b5341514a4d" />
 
+*   **What the Defender Discovers:** The defender uses this centralized cloud timeline view to locate the final impact of the attack. By running a simple search for the word `ransom`, the defender isolates a critical file event where a new file named `READ_ME_RANSOM.txt` was dropped directly onto the victim's desktop folder profile. The defender instantly recognizes this as the official extortion demand, proving that a ransomware payload has been detonated on the endpoint.
 
-*   **What the Defender Discovers:** By searching the SIEM history for the word `ransom`, the defender isolates the exact file modification alert at `23:11:10`. The defender understands the complete execution path of the ransomware loop, preserving the raw process string as unassailable proof for the final incident response report.
 
 ---
 
