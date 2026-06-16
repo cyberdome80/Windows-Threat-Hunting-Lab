@@ -127,6 +127,17 @@ If an attacker leaves these backups intact, the victim company will simply resto
 
 ---
 
+
+#### 📸 Step 2.5: Attacker Reconnaissance (Mapping the Backups)
+
+<img width="978" height="648" alt="VirtualBox_Windows10N_10_06_2026_22_15_27" src="https://github.com/user-attachments/assets/f85a1c66-5cf5-4782-912a-dd739a6b17dc" />
+
+
+**Command:** `vssadmin list shadows`
+*   **What it does in simple terms:** Before running any destructive commands, the **attacker** runs this utility to see if the victim has any automatic backup snapshots saved on the hard drive. Finding an active backup container tells the attacker that they must wipe out these safety nets in the next step so the company cannot restore their files for free [3.3].
+
+---
+
 #### 📸 Step 3: Remote Access & Account Verification
 
 <img width="950" height="434" alt="Screenshot 2026-06-15 001959" src="https://github.com/user-attachments/assets/9d1dacf6-1069-4443-988c-bea6a2aa4a1a" />
