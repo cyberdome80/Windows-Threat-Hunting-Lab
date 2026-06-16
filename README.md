@@ -73,6 +73,7 @@ If an attacker leaves these backups intact, the victim company will simply resto
 
 
 ### Use Case 2: High-Privilege Credential Access (LSASS Memory Dump)
+
 *   **MITRE ATT&CK Mapping:** T1003.001 — OS Credential Dumping: LSASS Memory
 
 #### 📝 Use Case Introduction
@@ -265,26 +266,20 @@ Below is the forensic investigation trail. It tells the story of how the defende
 
 *   **What the Defender Discovers:** This log acts as the **ultimate proof of credential theft**. The defender sees that an outside application requested a deep handle to look inside the password storage vault (`lsass.exe`). The defender instantly understands that the attacker has successfully copied the system's active passwords and security keys.
 
-#### 📸 Cloud Telemetry: High-Integrity Process Detection
 
-<img width="853" height="424" alt="Screenshot 2026-06-16 003519" src="https://github.com/user-attachments/assets/2ba52300-19e4-44dc-bf5b-9a964b068b8b" />
+#### 📸 Cloud Telemetry: Consolidated Live Feed & Timeline Analysis
 
-
-*   **What the Defender Discovers:** Inside the cloud SIEM, the defender checks the permission levels used during the attack. By spotting **`"IntegrityLevel": "High"`**, the defender understands that the attacker has successfully gained full administrative rights on the machine, giving them the power to control the entire operating system.
-
-#### 📸 Cloud Telemetry: Evasion Technique Mapping
-
-<img width="855" height="421" alt="Screenshot 2026-06-16 003942" src="https://github.com/user-attachments/assets/cf82ab0a-4794-4c95-a99a-a44fe31c6f5a" />
+<img width="958" height="313" alt="Screenshot 2026-06-16 163234" src="https://github.com/user-attachments/assets/c0d96768-96d2-4abc-a5ac-b2f8650901b8" />
 
 
-*   **What the Defender Discovers:** The defender exposes the attacker's scripting tool. By seeing that `powershell.exe` was used to launch the memory dump, the defender understands the exact scripting method the hacker used to bypass standard system boundaries.
+*   **The Attack Being Carried Out:** The threat actor is attempting an **OS Credential Dumping attack (MITRE T1003.001)**. They are trying to steal the company's administrative network passwords by forcing a trusted built-in Windows program (`rundll32.exe`) to take a hidden snapshot of the system's running password vault memory (`lsass.exe`).
 
-#### 📸 Cloud Telemetry: Timeline Validation
+*   **What the Defender Discovers (Live Feed - Left side):** The real-time stream catches the attack text as it happens. The defender reads the raw `CommandLine` showing that the memory copy script completed successfully. Crucially, the log flags **`"IntegrityLevel": "High"`**, which tells the defender that the hacker successfully gained elevated administrator permissions to read protected system memory boundaries.
 
-<img width="854" height="422" alt="Screenshot 2026-06-16 004521" src="https://github.com/user-attachments/assets/81935708-cf55-436c-aba6-e3e03b12ad3a" />
+*   **What the Defender Discovers (Timeline - Right side):** Shifting to the historical log database, the defender tracks down the exact result of the execution. The timeline unmasks that the command prompt was spawned by an underlying script tool (`powershell.exe`) and exposes the final output path: `C:\Users\Target-PC2\Documents\lsass.dmp`. The defender now knows the exact file location holding the stolen company passwords and can step in to delete the file and force an immediate password reset across the network.
 
 
-*   **What the Defender Discovers:** The defender traces where the stolen password file was saved. The timeline log points directly to `C:\Users\Target-PC2\Documents\lsass.dmp`. The defender now understands exactly which file on the hard drive contains the compromised company keys and must be securely deleted immediately.
+
 
 ---
 
