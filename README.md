@@ -233,19 +233,18 @@ Below is the forensic investigation trail. It tells the story of how the defende
 
 *   **What the Defender Discovers:** By finding this local log, the defender discovers the attacker's primary motive: **Inhibiting System Recovery**. The defender understands that a hacker is on the network and is intentionally destroying the system's safety nets to make sure the company cannot restore its files for free. 
 
-#### 📸 Cloud Telemetry: SIEM Live Feed Stream
 
-<img width="1280" height="638" alt="WhatsApp Image 2026-06-12 at 11 07 14 PM" src="https://github.com/user-attachments/assets/cb83dc94-60ce-4707-99fd-d492baa7ede4" />
+#### 📸 Cloud Telemetry: SIEM Consolidated Live Feed & Timeline Analysis
 
-
-*   **What the Defender Discovers:** In the cloud console, the defender unmasks **where the attack came from**. By examining the process lineage, the defender sees that the command prompt (`cmd.exe`) was spawned by the OpenSSH service (`sshd.exe`). The defender now understands that this wasn't a local employee mistake; a remote attacker has successfully logged into the machine from the outside world.
-
-#### 📸 Cloud Telemetry: Historical Timeline Index
-
-<img width="1280" height="641" alt="WhatsApp Image 2026-06-12 at " src="https://github.com/user-attachments/assets/6785ddd1-48cc-440d-b1d7-7c5730c11e8b" />
+<img width="956" height="313" alt="Screenshot 2026-06-16 173144" src="https://github.com/user-attachments/assets/ad9ec8d8-33ba-4d42-a541-0c7d30fc667e" />
 
 
-*   **What the Defender Discovers:** By looking at the historical timeline, the defender establishes the **exact timestamp of the incident** (`20:53:19`). The defender understands that even if the attacker clears their screen or disconnects, the cloud platform has locked the event permanently in history, allowing the security team to build an accurate forensic timeline of the breach.
+*   **The Attack Being Carried Out:** The threat actor is executing an **Inhibit System Recovery attack (MITRE T1490)**. They are using an administrative command tool (`vssadmin.exe`) to completely wipe out all hidden file backup snapshots on the hard drive so the victim cannot easily roll back or restore their files for free.
+
+*   **What the Defender Discovers (Live Feed - Left side):** The real-time stream catches the attack text the exact millisecond it runs. The defender reads the raw `COMMAND_LINE` showing the specific arguments used: `delete shadows /all /quiet`. By looking at the background process path, the defender unmasks that the local command prompt (`cmd.exe`) was spawned by the remote OpenSSH service (`sshd.exe`), proving that an outside hacker has successfully logged into the system.
+
+*   **What the Defender Discovers (Timeline - Right side):** Shifting to the historical log database, the defender tracks down the permanent record of the event. The timeline isolates the exact process creation event at `20:53:19` and displays the full `CommandLine` details inside the JSON event data box. This confirms to the defender that the cloud platform has locked the forensic footprint permanently in history, allowing the security team to build an accurate timeline of the breach even if the attacker closes their connection.
+
 
 ---
 
@@ -278,6 +277,8 @@ Below is the forensic investigation trail. It tells the story of how the defende
 
 *   **What the Defender Discovers (Timeline - Right side):** Shifting to the historical log database, the defender tracks down the exact result of the execution. The timeline unmasks that the command prompt was spawned by an underlying script tool (`powershell.exe`) and exposes the final output path: `C:\Users\Target-PC2\Documents\lsass.dmp`. The defender now knows the exact file location holding the stolen company passwords and can step in to delete the file and force an immediate password reset across the network.
 
+
+*   **What the Defender Discovers (Timeline - Right side):** Shifting to the historical log database, the defender tracks down the exact result of the execution. The timeline unmasks that the command prompt was spawned by an underlying script tool (`powershell.exe`) and exposes the final output path: `C:\Users\Target-PC2\Documents\lsass.dmp`. Even though the attacker later executes a delete command to cover their tracks, this forensic footprint tells the defender exactly which memory vault was compromised. This allows the security team to verify the file's destruction and immediately force a password reset across the corporate network to make the stolen data useless. In a situation where the attacker didn't delete the file, as a result of the finding from the above diagram, the defender now knows the exact file location holding the stolen company passwords and can step in to delete the file.
 
 
 
