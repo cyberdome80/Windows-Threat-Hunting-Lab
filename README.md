@@ -319,8 +319,10 @@ Even though the raw number 22 is translated by the system, the program name tell
 
 <img width="1280" height="625" alt="Data exfiltration (1)" src="https://github.com/user-attachments/assets/5f2116db-4575-424d-b104-3a68e8558c6d" />
 
+*   **What the Defender Discovers:** The defender uses this cloud network view to catch an active **Data Exfiltration breach** in progress. By filtering the centralized logs, the defender flags a critical `NETWORK_CONNECTIONS` event linked directly to the system's secure copy file utility (`sshd.exe`).
 
-*   **What the Defender Discovers:** The defender isolates the exact duration of the data leak. By tracking the network connection timestamps, the defender understands how long the hacker was connected and can estimate exactly how much corporate data was pulled off the system.
+The defender instantly understands that an outside attacker is actively using the machine's secure network doorways to copy files off the computer. This visual proof allows the security team to identify the exact unauthorized application used to siphon information and proves that confidential data has been stolen over the wire.
+
 
 ---
 
