@@ -353,3 +353,28 @@ The defender instantly understands that an outside attacker is actively using th
 *   **What the Defender Discovers (Timeline - Right side):** Shifting to the historical log database, the defender runs a query search for the keyword `ransom` to verify the attack's reach. The timeline console isolates the exact event and displays the full data box. This confirms to the security team that the ransomware script executed successfully, giving the analyst the precise process data needed to begin system isolation and incident response procedures.
 
 
+---
+
+## 🛠️ 3. Proactive Detection Engineering & Automated Defense
+
+#### 📝 What Led to This Defense Rule (The Analyst's Response)
+After reviewing the threat hunting tracking data from the previous phases, the analyst identifies a critical choke point in the attack: the hacker relies on a script loop to write ransom notes directly onto user desktops. Instead of manually monitoring logs after files are already corrupted, the analyst decides to engineer an **Automated Defense System** to intercept and block the attack in real-time.
+
+---
+
+#### 📸 EDR Engineering Control Profile: `Ransom_Note_Mitigation_Rule`
+
+<img width="1280" height="630" alt="WhatsApp Image 2026-06-13 at 2 17 04 AM" src="https://github.com/user-attachments/assets/090a38d1-e69a-41d0-8002-b4d708f6f5cc" />
+
+
+*   **The Design Logic (Detect Section):** The rule watches the endpoint in real-time for any `FILE_CREATE` event. It utilizes a regular expression pattern (`re: .*\\Desktop\\.*RANSOM.*\.txt$`) to monitor user profiles. If any program attempts to drop a text file containing the word "RANSOM" onto any desktop interface across the enterprise network, the detection filter trips instantly.
+
+*   **The Containment Mechanism (Response Section):** Once tripped, the system triggers an immediate multi-action mitigation array. 
+    1. **`action: report`**: It drops a high-priority alert named `CRITICAL_RANSOMWARE_DETONATION_ATTEMPT` straight into the SOC dashboard queue.
+    2. **`command: history_dump`**: It saves volatile log data from the computer's recent memory for forensic investigation.
+    3. **`command: deny_tree <<routing/parent>>`**: This is the EDR kill switch. It instantly terminates the parent program running the ransomware script (the hacker's remote network shell thread). 
+
+*   **The Final Outcome:** As shown by the active **`Enabled`** status on the screen, the rule is fully armed. It lowers the system's Mean Time to Remediate (MTTR) straight down to milliseconds, freezing the ransomware mid-execution and completely neutralizing the threat before a single additional corporate folder can be encrypted.
+
+
+
