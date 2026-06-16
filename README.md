@@ -339,18 +339,17 @@ The defender instantly understands that an outside attacker is actively using th
 
 *   **What the Defender Discovers:** The local log tracks the drop of the extortion demand. The defender discovers that a PowerShell script explicitly wrote a file named `READ_ME_RANSOM.txt` directly onto the user's desktop profile path, confirming that a ransomware payload has been detonated.
 
-#### 📸 Cloud Telemetry: Live Feed File Creation Event
-
-<img width="1280" height="635" alt="Ransomware Encryption   Impact Telemetry (1)" src="https://github.com/user-attachments/assets/dee51469-6363-438d-8aeb-fddc70013368" />
 
 
-*   **What the Defender Discovers:** The cloud live feed logs the exact moment the ransomware message hit the desktop interface. The defender understands that an automated attack script is currently modifying files on the desktop and can trigger immediate incident response isolation protocols to stop the script from spreading to other network drives.
+#### 📸 Cloud Telemetry: Consolidated Live Feed & Timeline Analysis
 
-#### 📸 Cloud Telemetry: Historical Threat Mapping
-<img width="1280" height="643" alt="Ransomware Encryption   Impact Telemetry (2)" src="https://github.com/user-attachments/assets/73049d0e-f61a-46d4-bc48-0b5341514a4d" />
-
-*   **What the Defender Discovers:** The defender uses this centralized cloud timeline view to locate the final impact of the attack. By running a simple search for the word `ransom`, the defender isolates a critical file event where a new file named `READ_ME_RANSOM.txt` was dropped directly onto the victim's desktop folder profile. The defender instantly recognizes this as the official extortion demand, proving that a ransomware payload has been detonated on the endpoint.
+<img width="959" height="312" alt="Screenshot 2026-06-16 212602" src="https://github.com/user-attachments/assets/56169083-21e2-418a-a894-097d6b7e10ae" />
 
 
----
+*   **The Attack Being Carried Out:** The threat actor is executing the final, destructive phase of a **Data Encrypted for Impact attack (MITRE T1486)**. They are using an automated PowerShell script loop to scramble corporate databases and drop an extortion note onto the user interface.
+
+*   **What the Defender Discovers (Live Feed - Left side):** The real-time stream catches the file modification wave instantly. The defender expands the raw event payload and unmasks a PowerShell thread writing a file named `READ_ME_RANSOM.txt` directly onto the victim's desktop folder profile. The defender immediately recognizes this as an active ransom demand.
+
+*   **What the Defender Discovers (Timeline - Right side):** Shifting to the historical log database, the defender runs a query search for the keyword `ransom` to verify the attack's reach. The timeline console isolates the exact event and displays the full data box. This confirms to the security team that the ransomware script executed successfully, giving the analyst the precise process data needed to begin system isolation and incident response procedures.
+
 
