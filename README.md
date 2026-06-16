@@ -51,44 +51,50 @@ Default Windows internal logs only save basic events and fail to record stealthy
 
 <img width="1024" height="768" alt="VirtualBox_Windows10N_04_06_2026_16_29_39" src="https://github.com/user-attachments/assets/fb260f73-331b-4b78-aa56-42a0cf4d5322" />
 
+*   **Why This Step is Important:** Default Windows guards do not record enough detail about background attacks. We install a specialized logging tool called **Sysmon** to act as a deep security camera inside the computer. It watches and records complex activities, like hackers trying to steal passwords or tamper with system files.
 
-*   **What the Defender Discovers:** The analyst installs Microsoft Sysmon using a customized XML rule schema [3.3]. The prompt explicitly registers `SysmonDrv started` and `Sysmon64 started`, meaning an advanced diagnostic sensor is now tracking deep host metrics—like process creation arguments and network handle modifications [3.3].
+---
 
 #### 📸 Logging Footprint: Verifying Local Telemetry Stream
 
 <img width="1920" height="892" alt="VirtualBox_Windows10N_04_06_2026_17_33_15" src="https://github.com/user-attachments/assets/0d72662f-16c7-4255-b3ef-32545ea15f89" />
 
+*   **Why This Step is Important:** After installing Sysmon, we run a check to verify that it is actually up and running. Seeing lines of raw data pop up on the screen gives us hard proof that the security camera is turned on and actively writing security logs into the computer's database.
 
-*   **What the Defender Discovers:** The analyst runs a verification command to audit the active logging pipeline. The output populates with raw data logs detailing running background services, proving that the newly installed Sysmon sensor is actively mapping real-time host events right into the local database partition.
+---
 
 #### 📸 Cloud Telemetry: Deploying the EDR Installation Key
 
 <img width="1409" height="755" alt="Screenshot 2026-06-04 175440" src="https://github.com/user-attachments/assets/41859e2b-2562-4024-9aa8-3a24e2f42ee8" />
 
+*   **Why This Step is Important:** This long code is the unique security key for our specific cloud control dashboard. We need this text string so that when we install the monitoring tool on our Windows machine, the computer knows exactly which cloud dashboard it should send its security logs to.
 
-*   **What the Defender Discovers:** The cloud SIEM console creates a custom endpoint installation payload. This long key acts as a secure cryptographic passport, ensuring that data moving off the target system can only stream into the analyst's authorized monitoring dashboard.
+---
 
 #### 📸 Cloud Telemetry: Detonating the Cloud Agent Installer
 
 <img width="1911" height="811" alt="Screenshot 2026-06-04 184815" src="https://github.com/user-attachments/assets/ff32144d-5256-41bc-9ae1-3950bdae6f07" />
 
 
-*   **What the Defender Discovers:** In an elevated administrative command window, the installer script is executed. The prompt fires back with `SUCCESS *** Agent installed successfully!`, indicating that the deep-level cloud hook has integrated with the Windows operating system and is ready to forward live logs out over the network.
+*   **Why This Step is Important:** Running this command officially installs the cloud-native monitoring program (the EDR agent) directly into the Windows system. Once the screen says **"Agent installed successfully!"**, it means the computer is officially hooked up to our cloud dashboard and is ready to forward live logs over the internet.
+
+---
 
 #### 📸 Cloud Telemetry: Verification of Online Enterprise Control
 
 <img width="1904" height="894" alt="Screenshot 2026-06-04 234740" src="https://github.com/user-attachments/assets/3fbc037f-7105-4a6b-b83a-23fcf234cf53" />
 
 
-*   **What the Defender Discovers:** Checking the centralized cloud infrastructure interface, the analyst spots a new active node entry labeled `desktop-bu3cnbb` running a matching Windows logo template. The green checkmark confirms the system is streaming real-time security logs up to the cloud console, indicating that the defensive telemetry baseline is officially active and ready to hunt threat behaviors.
+*   **Why This Step is Important:** We check our main cloud dashboard to verify the connection worked. Seeing the computer name `desktop-bu3cnbb` pop up with a green status symbol confirms that the machine is successfully communicating with our cloud control panel from across the network.
+
+---
 
 #### 📸 Cloud Telemetry: Configuring the Artifact Collection Pipeline
 
 <img width="1910" height="833" alt="Screenshot 2026-06-05 001022" src="https://github.com/user-attachments/assets/597e3869-4fab-4a3b-9cde-eb501a2d0715" />
 
 
-*   **What the Defender Discovers:** To ensure absolute visibility, the analyst builds an ingestion route labeled `windows-sysmon-logs`. This explicitly bridges the local endpoint with the cloud SIEM engine, instructing LimaCharlie to continuously pull and retain Windows internal Event Logs for long-term forensic study.
-
+*   **Why This Step is Important:** Finally, we configure a rule telling the cloud system to continuously ingest the computer's internal files. This builds a permanent data pipe that continuously pulls our Windows logs into the cloud platform, ensuring that we can review and analyze all security footprints long after an attack happens.
 
 
 ---
