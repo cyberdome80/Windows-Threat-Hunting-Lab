@@ -14,13 +14,82 @@ An end-to-end blue team simulation replicating a multi-stage intrusion lifecycle
 
 ## 🏗️ 1. Architecture & Lab Environment Baseline
 
-This environment mirrors a corporate perimeter intrusion zone where an external adversary bridges network boundaries to establish a command-and-control footprint on a local asset.
+#### 📝 Architecture Introduction
+To analyze modern cyberthreats safely without putting private files at risk, a security engineer must first build an isolated sandbox network. This environment mirrors a corporate architecture, providing standard endpoints for target machines while setting up dedicated telemetry pipes to monitor attack behaviors from a cloud dashboard.
 
-### Infrastructure Blueprint
-*   **Attacker Node (Kali Linux):** Positioned on private virtual subnet segment `192.168.10.250`.
-*   **Target Endpoint (Windows 10):** Positioned at static local node `192.168.10.9`. 
-*   **Telemetry Forwarder (Microsoft Sysmon):** Deployed locally to capture advanced event arrays (Process Creation, Network Connections, File Integrity Events, Process Access Memory Handles).
-*   **SIEM Engine (LimaCharlie EDR):** Deployed via an active host sensor configuration, facilitating live detection parsing and real-time automated telemetry analytics streams.
+---
+
+### Phase 1: Sandbox Environment Isolation & Defensive Safety Nets
+*   **The Analyst's Goal:** Provision an evaluation virtual workstation, sever its digital connection to the home network, and establish a bulletproof safety baseline before welcomes any live malware samples.
+
+#### 📸 Setup Step 1: Account Provisioning inside Cloud SIEM Control Plane
+
+<img width="959" height="309" alt="Screenshot 2026-06-16 222951" src="https://github.com/user-attachments/assets/4ce0dbc7-84e3-4a7d-8d30-c4d9479d8942" />
+
+
+*   **What the Defender Discovers:** The analyst establishes a dedicated tenant pipeline named `Enterprise-Hunting-Lab` within the cloud-native LimaCharlie platform. This establishes a clean, isolated cloud space ready to accept remote logging data streams from target virtual nodes.
+
+#### 📸 Setup Step 2: Provisioning Analyst Safety Restore Points
+
+<img width="908" height="311" alt="Screenshot 2026-06-16 221114" src="https://github.com/user-attachments/assets/2c706ac7-574e-48ce-894d-18bc93642132" />
+
+
+*   **Why the Analyst Performs This:** Before deploying logging tools or starting attack traffic, the **analyst** manually forces a local Windows System Restore Point labeled `"BeforeAttack"`. This serves as a vital sandbox safeguard, ensuring that if the impending ransomware simulation completely destroys the operating system, the system state can instantly be rolled back to a clean baseline.
+
+---
+
+## 🔍 2. Deploying Advanced Defensive Telemetry Engines
+
+#### 📝 Logging Deployment Introduction
+Default Windows internal logs only save basic events and fail to record stealthy, advanced techniques like memory dumps or custom command parameters. To bridge this visibility gap, the analyst hardens the target endpoint by deploying advanced security tools directly into the operating system.
+
+---
+
+### Phase 2: Telemetry Hardening and Cloud Sensor Integration
+
+#### 📸 Logging Footprint: Local Sysmon Service Deployment
+
+<img width="1024" height="768" alt="VirtualBox_Windows10N_04_06_2026_16_29_39" src="https://github.com/user-attachments/assets/fb260f73-331b-4b78-aa56-42a0cf4d5322" />
+
+
+*   **What the Defender Discovers:** The analyst installs Microsoft Sysmon using a customized XML rule schema [3.3]. The prompt explicitly registers `SysmonDrv started` and `Sysmon64 started`, meaning an advanced diagnostic sensor is now tracking deep host metrics—like process creation arguments and network handle modifications [3.3].
+
+#### 📸 Logging Footprint: Verifying Local Telemetry Stream
+
+<img width="1920" height="892" alt="VirtualBox_Windows10N_04_06_2026_17_33_15" src="https://github.com/user-attachments/assets/0d72662f-16c7-4255-b3ef-32545ea15f89" />
+
+
+*   **What the Defender Discovers:** The analyst runs a verification command to audit the active logging pipeline. The output populates with raw data logs detailing running background services, proving that the newly installed Sysmon sensor is actively mapping real-time host events right into the local database partition.
+
+#### 📸 Cloud Telemetry: Deploying the EDR Installation Key
+
+<img width="1409" height="755" alt="Screenshot 2026-06-04 175440" src="https://github.com/user-attachments/assets/41859e2b-2562-4024-9aa8-3a24e2f42ee8" />
+
+
+*   **What the Defender Discovers:** The cloud SIEM console creates a custom endpoint installation payload. This long key acts as a secure cryptographic passport, ensuring that data moving off the target system can only stream into the analyst's authorized monitoring dashboard.
+
+#### 📸 Cloud Telemetry: Detonating the Cloud Agent Installer
+
+<img width="1911" height="811" alt="Screenshot 2026-06-04 184815" src="https://github.com/user-attachments/assets/ff32144d-5256-41bc-9ae1-3950bdae6f07" />
+
+
+*   **What the Defender Discovers:** In an elevated administrative command window, the installer script is executed. The prompt fires back with `SUCCESS *** Agent installed successfully!`, indicating that the deep-level cloud hook has integrated with the Windows operating system and is ready to forward live logs out over the network.
+
+#### 📸 Cloud Telemetry: Verification of Online Enterprise Control
+
+<img width="1904" height="894" alt="Screenshot 2026-06-04 234740" src="https://github.com/user-attachments/assets/3fbc037f-7105-4a6b-b83a-23fcf234cf53" />
+
+
+*   **What the Defender Discovers:** Checking the centralized cloud infrastructure interface, the analyst spots a new active node entry labeled `desktop-bu3cnbb` running a matching Windows logo template. The green checkmark confirms the system is streaming real-time security logs up to the cloud console, indicating that the defensive telemetry baseline is officially active and ready to hunt threat behaviors.
+
+#### 📸 Cloud Telemetry: Configuring the Artifact Collection Pipeline
+
+<img width="1910" height="833" alt="Screenshot 2026-06-05 001022" src="https://github.com/user-attachments/assets/597e3869-4fab-4a3b-9cde-eb501a2d0715" />
+
+
+*   **What the Defender Discovers:** To ensure absolute visibility, the analyst builds an ingestion route labeled `windows-sysmon-logs`. This explicitly bridges the local endpoint with the cloud SIEM engine, instructing LimaCharlie to continuously pull and retain Windows internal Event Logs for long-term forensic study.
+
+
 
 ---
 
