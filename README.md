@@ -26,8 +26,9 @@ To analyze modern cyberthreats safely without putting private files at risk, a s
 
 <img width="959" height="309" alt="Screenshot 2026-06-16 222951" src="https://github.com/user-attachments/assets/4ce0dbc7-84e3-4a7d-8d30-c4d9479d8942" />
 
+*   **Why This Step is Important:** To track and catch hackers across an entire enterprise network, you need a central command center. We create an account space called `Enterprise-Hunting-Lab` inside a cloud-native platform named **LimaCharlie**. This builds a secure, empty cloud environment that is ready to receive and analyze incoming security logs from our virtual machines.
 
-*   **What the Defender Discovers:** The analyst establishes a dedicated tenant pipeline named `Enterprise-Hunting-Lab` within the cloud-native LimaCharlie platform. This establishes a clean, isolated cloud space ready to accept remote logging data streams from target virtual nodes.
+---
 
 #### 📸 Setup Step 2: Provisioning Analyst Safety Restore Points
 
