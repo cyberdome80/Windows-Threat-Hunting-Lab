@@ -150,7 +150,7 @@ If an attacker leaves these backups intact, the victim company will simply resto
 
 
 **Command:** `vssadmin list shadows`
-*   **What it does in simple terms:** Before running any destructive commands, the **attacker** runs this utility to see if the victim has any automatic backup snapshots saved on the hard drive. Finding an active backup container tells the attacker that they must wipe out these safety nets in the next step so the company cannot restore their files for free [3.3].
+*   **What it does in simple terms:** Before running any destructive commands, the **attacker** runs this utility to see if the victim has any automatic backup snapshots saved on the hard drive. Finding an active backup container tells the attacker that they must wipe out these safety nets in the next step so the company cannot restore their files for free.
 
 ---
 
@@ -173,9 +173,9 @@ If an attacker leaves these backups intact, the victim company will simply resto
 *   **MITRE ATT&CK Mapping:** T1003.001 — OS Credential Dumping: LSASS Memory
 
 #### 📝 Use Case Introduction
-When an attacker gains initial access to a single computer, they are usually trapped inside a standard user account with limited permissions. To take over the entire corporate network, the attacker needs administrative passwords to log into other systems [3.3].
+When an attacker gains initial access to a single computer, they are usually trapped inside a standard user account with limited permissions. To take over the entire corporate network, the attacker needs administrative passwords to log into other systems.
 
-In this phase, the attacker targets a core Windows security program called **LSASS** (`lsass.exe`), which manages active user sessions and temporarily holds encrypted login keys inside the computer's running memory (RAM) [3.3]. By copying everything out of this program's memory space and saving it into a hidden file, the attacker creates a permanent snapshot of the system's active passwords [3.3]. This file can then be stolen and unlocked offline, giving the threat actor the administrative credentials needed to compromise the rest of the enterprise network [3.3].
+In this phase, the attacker targets a core Windows security program called **LSASS** (`lsass.exe`), which manages active user sessions and temporarily holds encrypted login keys inside the computer's running memory (RAM). By copying everything out of this program's memory space and saving it into a hidden file, the attacker creates a permanent snapshot of the system's active passwords. This file can then be stolen and unlocked offline, giving the threat actor the administrative credentials needed to compromise the rest of the enterprise network.
 
 ---
 
@@ -190,7 +190,7 @@ In this phase, the attacker targets a core Windows security program called **LSA
 *   **What it does in simple terms:** This command searches the computer to find the exact tracking number (called a Process ID) of the Windows password vault (`lsass.exe`) [3.3]. The attacker needs this specific number (`604`) to point their attack tools at it.
 
 **Command 2:** `rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump 604 C:\Users\Target-PC2\Documents\lsass.dmp full`
-*   **What it does in simple terms:** This command tells the computer to take a complete snapshot of that password vault's memory and save it as a file named `lsass.dmp` [3.3]. 
+*   **What it does in simple terms:** This command tells the computer to take a complete snapshot of that password vault's memory and save it as a file named `lsass.dmp`. 
 *   **The Result:** Because the computer's security guards were still turned on, Windows Defender blocked the command immediately and shouted **"Access is denied,"** saving the passwords from being copied.
 
 ---
