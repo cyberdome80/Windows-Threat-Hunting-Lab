@@ -14,7 +14,7 @@ An end-to-end blue team simulation replicating a multi-stage intrusion lifecycle
 ---
 
 ## 📊 Quick Links & Deliverables
-*   **Project Presentation Link:** [👉 Click Here to View the Google Slides Presentation](PASTE_YOUR_GOOGLE_SLIDES_SHARE_LINK_HERE)
+*   **Project Presentation Link:** [👉 Click Here to View the Google Slides Presentation] https://docs.google.com/presentation/d/1LbHIC3dVEfUD1OAMdG6ieVdrGV--j4q6nmbKjCfQAn4/edit?usp=sharing
 *   **Target Machine Architecture:** Windows 10 Home (Hardened Endpoint Sensor Node)
 *   **Attack Infrastructure:** Kali Linux via Private Hypervisor Network Bridge (`192.168.10.0/24`)
 *   **EDR Control Plane:** LimaCharlie Cloud-Native Security Operations Interface
