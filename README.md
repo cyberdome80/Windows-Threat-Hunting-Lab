@@ -24,7 +24,7 @@ An end-to-end blue team simulation replicating a multi-stage intrusion lifecycle
 ## 🏗️ 1. Architecture & Lab Environment Baseline
 
 #### 📝 Architecture Introduction
-To analyze modern cyberthreats safely without putting private files at risk, a security engineer must first build an isolated sandbox network. This environment mirrors a corporate architecture, providing standard endpoints for target machines while setting up dedicated telemetry pipes to monitor attack behaviors from a cloud dashboard.
+To analyze modern cyber threats safely without putting private files at risk, a security engineer must first build an isolated sandbox network. This environment mirrors a corporate architecture, providing standard endpoints for target machines while setting up dedicated telemetry pipes to monitor attack behaviors from a cloud dashboard.
 
 ---
 
